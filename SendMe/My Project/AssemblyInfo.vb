@@ -9,7 +9,7 @@ Imports System.Runtime.InteropServices
 ' Review the values of the assembly attributes
 
 <Assembly: AssemblyTitle("SendMe")>
-<Assembly: AssemblyDescription("An application for sending and receiving binary files")>
+<Assembly: AssemblyDescription("An application for sending and receiving binary files over network.")>
 <Assembly: AssemblyCompany("LXM Company, Inc.")>
 <Assembly: AssemblyProduct("SendMe")>
 <Assembly: AssemblyCopyright("Copyright © LinuX Man 2020")>
