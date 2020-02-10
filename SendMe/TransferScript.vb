@@ -2,31 +2,23 @@
 	''' <summary>
 	''' Sender class for a binary file to another host.
 	''' </summary>
-	Public Sub Sender()
+	Public Sub Sender(path As String)
+		asker = MsgBox("The file will be uploaded: """ + IO.Path.GetFileName(path) + " from """ +
+					   vbCrLf + IO.Path.GetDirectoryName(path) + ", are you sure?",
+					   MsgBoxStyle.YesNo, "Confirm Upload")
 
+		Select Case asker
+			Case MsgBoxResult.Yes
+				Message("The file will be uploaded.", "Upload Started")
+			Case Else
+				Exit Select
+		End Select
 	End Sub
 
 	''' <summary>
 	''' Receiver class to receive the binary data from Sender.
 	''' </summary>
-	Public Sub Receive()
+	Public Sub Receiver()
 
 	End Sub
-
-	' ----- Override statements --------------------
-	Protected Overrides Sub Finalize()
-		MyBase.Finalize()
-	End Sub
-
-	Public Overrides Function ToString() As String
-		Return MyBase.ToString()
-	End Function
-
-	Public Overrides Function Equals(obj As Object) As Boolean
-		Return MyBase.Equals(obj)
-	End Function
-
-	Public Overrides Function GetHashCode() As Integer
-		Return MyBase.GetHashCode()
-	End Function
 End Class

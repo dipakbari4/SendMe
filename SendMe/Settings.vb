@@ -1,10 +1,18 @@
 ﻿Friend Module Settings
+	Private status As String
+
 	''' <summary>
-	''' Executes the containing code in startup of the application.
+	''' Executes the containing code before startup of the application.
 	''' </summary>
 	Public Sub InitiateServices()
-		Message("This application has successfully started.", "Application", 1)
+		With Main
+			.Refresher.Start()
+			.UpdateNetwork.Start()
 
-		Main.Refresher.Start()
+			.OpenFile.InitialDirectory =
+				My.Computer.FileSystem.SpecialDirectories.Desktop
+		End With
+
+		VerifyNetwork()
 	End Sub
 End Module
