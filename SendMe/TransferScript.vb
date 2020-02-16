@@ -3,13 +3,13 @@
 	''' Sender class for a binary file to another host.
 	''' </summary>
 	Public Sub Sender(path As String)
-		asker = MsgBox("The file will be uploaded: """ + IO.Path.GetFileName(path) + " from """ +
+		asker = MsgBox("The file will be uploaded: """ + IO.Path.GetFileName(path) + """ from " +
 					   vbCrLf + IO.Path.GetDirectoryName(path) + ", are you sure?",
 					   MsgBoxStyle.YesNo, "Confirm Upload")
 
 		Select Case asker
 			Case MsgBoxResult.Yes
-				Message("The file will be uploaded.", "Upload Started")
+				Message("The file will be uploaded.", "Upload Ready")
 			Case Else
 				Exit Select
 		End Select

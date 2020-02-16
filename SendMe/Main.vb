@@ -2,6 +2,7 @@
 
 Public Class Main
 	Private selected As Short
+	Private file As FileStream
 	Private fileSize As Double
 	Private ReadOnly tScript As New TransferScript
 
@@ -27,7 +28,7 @@ Public Class Main
 			Return
 		End If
 
-		If File.Exists(filePath) Then
+		If IO.File.Exists(filePath) Then
 		Else
 			Message("The file path: " + vbCrLf + filePath +
 					" was moved from the its place. Please select again.",
@@ -42,7 +43,7 @@ Public Class Main
 		Notifier.Visible = trigger
 
 		Try
-			If Not File.Exists(Application.ExecutablePath) Then
+			If Not IO.File.Exists(Application.ExecutablePath) Then
 				Refresher.Stop()
 
 				Message("The SendMe was removed from the executive place.",
@@ -75,7 +76,8 @@ Public Class Main
 		Button1.Enabled = sender.ToString.Length > 0
 		filePath = sender.Text.ToString
 		Label3.Visible = True
-		fileSize = File.Open(filePath, FileMode.Open).Length
+		file = IO.File.Open(filePath, FileMode.Open)
+		fileSize = file.Length()
 
 		If fileSize > 1024 ^ 3 Then
 			Label3.Text = "File Size: " + Format(fileSize / 1024 ^ 3, "0.00").ToString + " GB"
@@ -84,7 +86,7 @@ Public Class Main
 		ElseIf fileSize > 1024 Then
 			Label3.Text = "File Size: " + Format(fileSize / 1024, "0.00").ToString + " KB"
 		Else
-			Label3.Text = "File Size: " + Format(fileSize, "0").ToString + " Byte"
+			Label3.Text = "File Size: " + Format(file, "0").ToString + " Byte"
 
 			If fileSize > 1 Then
 				Label3.Text += "s"
@@ -94,6 +96,7 @@ Public Class Main
 		HelpText.SetToolTip(TextBox1, "The file will be uploaded: """ +
 			Path.GetFileName(filePath) + """ from " + vbCrLf +
 			  Path.GetDirectoryName(filePath))
+		file.Close()
 	End Sub
 
 	Private Sub TrackBar1_Scroll(sender As Object, e As EventArgs) Handles TrackBar1.Scroll
@@ -125,5 +128,30 @@ Public Class Main
 
 		Message("The for network update interval is set to: " +
 				selected.ToString + " seconds.", "Interval Updated", 1)
+	End Sub
+
+	Private Sub LinkLabel1_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
+
+	End Sub
+
+	Private Sub LinkLabel2_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel2.LinkClicked
+		Message("You should get notified as soon as network will start responding.",
+				"Network Waiter")
+
+		WindowState = FormWindowState.Minimized
+		NetworkWaiter.Start()
+		Status("Network Waiter has been started!")
+	End Sub
+
+	Private Sub NetworkWaiter_Tick(sender As Object, e As EventArgs) Handles NetworkWaiter.Tick
+		If DoPing = True Then
+			ShowNotify("Network is back! Let us have some party.", "Internet is Back")
+			WindowState = FormWindowState.Normal
+			NetworkWaiter.Stop()
+		End If
+	End Sub
+
+	Private Sub LinkLabel3_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel3.LinkClicked
+		About.ShowDialog()
 	End Sub
 End Class

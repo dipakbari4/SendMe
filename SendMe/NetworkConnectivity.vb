@@ -28,11 +28,17 @@
 	Public Sub VerifyNetwork()
 		If My.Computer.Network.IsAvailable Then
 			If DoPing Then
+				Main.LinkLabel1.Visible = True
+				Main.LinkLabel2.Visible = False
 				Status("Connection successful")
 			Else
+				Main.LinkLabel1.Visible = False
+				Main.LinkLabel2.Visible = True
 				Status("Network is unreachable", 2)
 			End If
 		Else
+			Main.LinkLabel1.Visible = False
+			Main.LinkLabel2.Visible = True
 			Status("Network is disconnected", 3)
 		End If
 	End Sub
